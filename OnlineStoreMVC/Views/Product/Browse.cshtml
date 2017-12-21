@@ -1,0 +1,41 @@
+﻿@model IEnumerable<OnlineStoreModels.Product>
+
+@{
+    ViewBag.Title = "Browse";
+}
+
+<link href="@Url.Content("~/Content/Browse.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<div id="productListContainer">
+    <table>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    <div class="productContainer">
+                        <div class="productContentContainer">
+                            <div class="productContent">
+                                <div class="productContentHeadingContainer">
+                                    <h4 class="productContentHeading">
+                                        @Html.ActionLink(product.Name, "Details", new { productId = product.ProductID })
+                                    </h4>
+                                </div>
+                                <div class="productContentPrimaryInfo">
+                                    <div class="productContentRow">
+                                        <div class="productPriceContainer">
+                                            <span class="dollarSign">$</span>@product.Price
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
