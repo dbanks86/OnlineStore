@@ -56,22 +56,6 @@
         <span ID="priceLabel" class="priceLabel">@String.Format("{0:c}", Model.ProductDetailsDTO.Product.Price)</span>
     </div>
     <div id="stockCount">
-        @{ 
-            string cssClass;
-            var stockCount = Model.ProductDetailsDTO.Product.StockCount;
-            if (stockCount > 5)
-            {
-                cssClass = "stockGreaterThan5";
-            }
-            else if (stockCount == 0)
-            {
-                cssClass = "stockEquals0";
-            }
-            else
-            {
-                cssClass = "stockBetween1And5";
-            }
-        }
-        <span class=@cssClass>@Model.ProductDetailsDTO.StockMessage</span>
+        <span class=@Model.StockMessageCssClass>@Model.ProductDetailsDTO.StockMessage</span>
     </div>
 </div>

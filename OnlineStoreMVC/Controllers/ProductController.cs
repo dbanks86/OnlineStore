@@ -34,7 +34,7 @@ namespace OnlineStore.Controllers
             catch(Exception ex)
             {
                 ExceptionManager.LogException(ex, Path.GetFileName(Request.PhysicalPath));
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction(Constants.CONTROLLER_ACTION_ERROR, Constants.CONTROLLER_NAME_ERROR);
             }
         }
 
@@ -47,24 +47,36 @@ namespace OnlineStore.Controllers
         {
             try
             {
-                ProductViewModel model = new ProductViewModel();
-                model.ProductDetailsDTO = new ProductDetailsDTO(services, productId);
+                ProductViewModel productViewModel = new ProductViewModel();
 
-                if (model.ProductDetailsDTO.Product.StockCount >= 4)
+                ProductDetailsDTO productDetailsDto = new ProductDetailsDTO();
+                productDetailsDto.Product = services.ProductService.GetProduct(productId);
+
+                var stockCount = productDetailsDto.Product.StockCount;
+
+                if (stockCount > 5)
                 {
-                    model.QuantitiesList = new SelectList(Enumerable.Range(1, 4));
+                    productDetailsDto.StockMessage = "In Stock";
+                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_GREATER_THAN_FIVE;
+                    productViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, 4));
+                }
+                else if (stockCount == 0)
+                {
+                    productDetailsDto.StockMessage = "Out of Stock";
+                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_EQUALS_ZERO;
                 }
                 else
                 {
-                    model.QuantitiesList = new SelectList(Enumerable.Range(1, model.ProductDetailsDTO.Product.StockCount));
+                    productDetailsDto.StockMessage = string.Format("Only {0} in stock", stockCount);
+                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_INCLUSIVELY_BETWEEN_ONE_AND_FIVE;
+                    productViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, stockCount > 3 ? 4 : stockCount));
                 }
-
-                return View(model);
+                return View(productViewModel);
             }
             catch (Exception ex)
             {
                 ExceptionManager.LogException(ex, Path.GetFileName(Request.PhysicalPath));
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction(Constants.CONTROLLER_ACTION_ERROR, Constants.CONTROLLER_NAME_ERROR);
             }
         }
     }

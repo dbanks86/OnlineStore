@@ -20,5 +20,10 @@ namespace OnlineStore.ViewModels
         /// List of possible quantities to select from
         /// </summary>
         public IEnumerable<SelectListItem> QuantitiesList { get; set; }
+
+        /// <summary>
+        /// Sets css class of stock message based on stock count of product
+        /// </summary>
+        public string StockMessageCssClass { get; set; }
     }
 }
