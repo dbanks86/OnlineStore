@@ -1,0 +1,83 @@
+CREATE TABLE dbo.Users
+(
+UserID INT IDENTITY(1,1) NOT NULL,
+Email VARCHAR(256) NOT NULL,
+Password VARCHAR(MAX) NOT NULL,
+CONSTRAINT PK_Users PRIMARY KEY CLUSTERED (UserID ASC),
+CONSTRAINT UQ_Email UNIQUE (Email)
+)
+
+CREATE TABLE dbo.Departments
+(
+DepartmentID INT IDENTITY(1,1) NOT NULL,
+Name VARCHAR(70) NOT NULL,
+CONSTRAINT PK_DepartmentID PRIMARY KEY CLUSTERED (DepartmentID ASC),
+CONSTRAINT UQ_DepartmentName UNIQUE (Name)
+)
+
+CREATE TABLE dbo.Products
+(
+ProductID INT IDENTITY(1,1) NOT NULL,
+Name VARCHAR(70) NOT NULL,
+DepartmentID INT NOT NULL,
+Price DECIMAL(18,2) NOT NULL,
+StockCount INT NOT NULL,
+Enabled BIT NOT NULL DEFAULT 1,
+CONSTRAINT PK_Products PRIMARY KEY CLUSTERED (ProductID),
+CONSTRAINT UQ_Name UNIQUE (Name, DepartmentID),
+CONSTRAINT FK_Products_Departments FOREIGN KEY (DepartmentID) REFERENCES dbo.Departments (DepartmentID)
+)
+
+CREATE TABLE dbo.CartItems
+(
+CartItemID INT IDENTITY(1,1) NOT NULL,
+Email VARCHAR(70) NOT NULL, /*NOT a FOREIGN KEY to allow anonymous users to have a cart*/
+ProductID INT NOT NULL,
+Quantity INT NOT NULL,
+DateCREATEd datetime NOT NULL,
+CONSTRAINT PK_CartItems PRIMARY KEY CLUSTERED (CartItemID),
+CONSTRAINT FK_CartItems_Products FOREIGN KEY (ProductID) REFERENCES dbo.Products (ProductID),
+CONSTRAINT UQ_Email_ProductID UNIQUE (Email, ProductID)
+)
+
+CREATE TABLE Orders
+(
+OrderID INT IDENTITY(1,1) NOT NULL,
+OrderDate datetime NOT NULL,
+UserID INT NULL,
+FirstName VARCHAR(160) NOT NULL,
+LastName VARCHAR(160) NOT NULL,
+Address VARCHAR(100) NOT NULL,
+City VARCHAR(50) NOT NULL,
+State VARCHAR(40) NOT NULL,
+ZipCode VARCHAR(20) NOT NULL,
+Email VARCHAR(256) NOT NULL,
+SubTotal DECIMAL(18,2) NOT NULL,
+SalesTax DECIMAL(18,2),
+ShippingOptionID INT NOT NULL,
+Total DECIMAL(18,2) NOT NULL,
+Cancelled BIT NOT NULL,
+CONSTRAINT PK_Orders PRIMARY KEY CLUSTERED (OrderID),
+CONSTRAINT FK_Orders_ShippingOptions FOREIGN KEY (ShippingOptionID) REFERENCES dbo.ShippingOptions (ShippingOptionID)
+)
+
+CREATE TABLE OrderDetails
+(
+OrderDetailID INT IDENTITY(1,1) NOT NULL,
+OrderID INT NOT NULL,
+ProductID INT NOT NULL,
+Quantity INT NOT NULL,
+ProductPrice DECIMAL(18,2) NOT NULL,
+CONSTRAINT PK_OrderDetails PRIMARY KEY CLUSTERED (OrderDetailID),
+CONSTRAINT FK_OrderDetails_Products FOREIGN KEY (ProductID) REFERENCES dbo.Products (ProductID),
+CONSTRAINT FK_OrderDetails_Orders FOREIGN KEY (OrderID) REFERENCES dbo.Orders (OrderID)
+)
+
+CREATE TABLE ShippingOptions
+(
+ShippingOptionID INT IDENTITY(1,1) NOT NULL, 
+Name VARCHAR(50) NULL, 
+Price DECIMAL(18, 2) NULL, 
+ExpectedDeliveryDays INT NOT NULL,
+CONSTRAINT PK_ShippingOptions PRIMARY KEY CLUSTERED (ShippingOptionID)
+)
