@@ -7,10 +7,8 @@ namespace OnlineStore.ViewModels
     /// <summary>
     /// ViewModel for the Product Details page
     /// </summary>
-    public class ProductViewModel
+    public class ProductDetailsViewModel : ProductDetailsDTO
     {
-        public ProductDetailsDTO ProductDetailsDTO { get; set; }
-
         /// <summary>
         /// Quantity selected by user
         /// </summary>
