@@ -47,31 +47,34 @@ namespace OnlineStore.Controllers
         {
             try
             {
-                ProductViewModel productViewModel = new ProductViewModel();
+                var product = services.ProductService.GetProduct(productId);
 
-                ProductDetailsDTO productDetailsDto = new ProductDetailsDTO();
-                productDetailsDto.Product = services.ProductService.GetProduct(productId);
+                ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel();
+                productDetailsViewModel.ProductID = product.ProductID;
+                productDetailsViewModel.Name = product.Name;
+                productDetailsViewModel.Price = product.Price;
+                productDetailsViewModel.StockCount = product.StockCount;
 
-                var stockCount = productDetailsDto.Product.StockCount;
+                var stockCount = productDetailsViewModel.StockCount;
 
                 if (stockCount > 5)
                 {
-                    productDetailsDto.StockMessage = "In Stock";
-                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_GREATER_THAN_FIVE;
-                    productViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, 4));
+                    productDetailsViewModel.StockMessage = "In Stock";
+                    productDetailsViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_GREATER_THAN_FIVE;
+                    productDetailsViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, 4));
                 }
                 else if (stockCount == 0)
                 {
-                    productDetailsDto.StockMessage = "Out of Stock";
-                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_EQUALS_ZERO;
+                    productDetailsViewModel.StockMessage = "Out of Stock";
+                    productDetailsViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_EQUALS_ZERO;
                 }
                 else
                 {
-                    productDetailsDto.StockMessage = string.Format("Only {0} in stock", stockCount);
-                    productViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_INCLUSIVELY_BETWEEN_ONE_AND_FIVE;
-                    productViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, stockCount > 3 ? 4 : stockCount));
+                    productDetailsViewModel.StockMessage = string.Format("Only {0} in stock", stockCount);
+                    productDetailsViewModel.StockMessageCssClass = Constants.CSS_CLASS_STOCK_INCLUSIVELY_BETWEEN_ONE_AND_FIVE;
+                    productDetailsViewModel.QuantitiesList = new SelectList(Enumerable.Range(1, stockCount > 3 ? 4 : stockCount));
                 }
-                return View(productViewModel);
+                return View(productDetailsViewModel);
             }
             catch (Exception ex)
             {

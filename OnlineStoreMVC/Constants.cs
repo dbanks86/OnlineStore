@@ -6,6 +6,8 @@
         public const string USER_EMAIL_COOKIE_KEY = "UserEmail";
         public const string USER_FIRST_NAME_COOKIE_KEY = "UserFirstName";
 
+        public const string DATABASE_TABLE_PRODUCTS = "Product";
+
         public const int PASSWORD_HASH_LENGTH = 40;
         public const int PASSWORD_SALT_LENGTH = 20;
         public const int PASSWORD_INTERATIONS = 200000;
