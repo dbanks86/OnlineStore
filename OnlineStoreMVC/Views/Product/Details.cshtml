@@ -1,4 +1,4 @@
-﻿@model OnlineStore.ViewModels.ProductViewModel
+﻿@model OnlineStore.ViewModels.ProductDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -19,11 +19,11 @@
                     @*@Html.DropDownList("quantity")*@
 
                     @*using "new { ProductID = Model.ProductID}" as third parameter of Html.BeginForm('ActionName', 'ControllerName', objectValues) would work too to pass ProductID to specfied controller*@
-                    @Html.HiddenFor(x => x.ProductDetailsDTO.Product.ProductID)
+                    @Html.HiddenFor(x => x.Product.ProductID)
                     @Html.DropDownListFor(x => x.SelectedQuantity, Model.QuantitiesList, new {@class = "quantityDropDown"})
                 </div>
                 <div id="addToCartButtonContainer">
-                    @if (Model.ProductDetailsDTO.Product.StockCount == 0)
+                    @if (Model.Product.StockCount == 0)
                     {
                         <div id="addToCartButton">
                             <input type="submit" disabled="disabled" value="Add to Cart" class="disabled" />
@@ -47,15 +47,15 @@
     <div id="titleDiv">
         <h1 id="productTitleHeader">
             <span id="productTitleSpan">
-                @Model.ProductDetailsDTO.Product.Name
+                @Model.Product.Name
             </span>
         </h1>
     </div>
     <div id="priceDiv">
         <span>Price:</span>
-        <span ID="priceLabel" class="priceLabel">@String.Format("{0:c}", Model.ProductDetailsDTO.Product.Price)</span>
+        <span ID="priceLabel" class="priceLabel">@String.Format("{0:c}", Model.Product.Price)</span>
     </div>
     <div id="stockCount">
-        <span class=@Model.StockMessageCssClass>@Model.ProductDetailsDTO.StockMessage</span>
+        <span class=@Model.StockMessageCssClass>@Model.StockMessage</span>
     </div>
 </div>
