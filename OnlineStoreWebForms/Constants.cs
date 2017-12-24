@@ -20,7 +20,7 @@
 
         public const string DATABASE_TABLE_PRODUCT = "Product";
 
-        public const string PAGE_PRODUCT_DETAILS = "~/Product/Details.aspx?productId=";
+        public const string PAGE_PRODUCT_DETAILS = "~/Product/Details.aspx?ProductID=";
         public const string PAGE_ADD_TO_CART = "~/Cart/AddToCart.aspx?ProductID=";
         public const string PAGE_GENERIC_ERROR = "~/GenericErrorPage.aspx";
 
