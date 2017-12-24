@@ -30,7 +30,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
                 return null;
             }
         }
@@ -43,7 +43,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
                 return null;
             }
         }
@@ -56,7 +56,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
                 return null;
             }
         }
@@ -70,7 +70,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
             }
         }
 
@@ -83,7 +83,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
             }
         }
 
@@ -102,7 +102,7 @@ namespace OnlineStoreDataAccessLayer.Repositories
             }
             catch (Exception ex)
             {
-                ErrorService.LogException(ex);
+                ErrorManager.LogException(ex);
             }
         }
 
