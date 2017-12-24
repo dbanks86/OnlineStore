@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OnlineStoreDataAccessLayer
 {
-    class ErrorService
+    class ErrorManager
     {
         // Log an Exception 
         internal static void LogException(Exception ex)
