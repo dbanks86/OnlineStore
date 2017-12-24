@@ -1,0 +1,153 @@
+﻿@model OnlineStore.ViewModels.CartViewModel
+
+@{
+    ViewBag.Title = "Index(Using Table for Cart Items)";
+}
+
+<link href="@Url.Content("~/Content/Cart.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<script src="~/Scripts/jquery-1.10.2.min.js"
+        type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".removeCartItemButton").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("productIdToDelete");
+
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/Cart/RemoveFromCart", { "productId": recordToDelete },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        $('.productID' + data.ProductID).fadeOut(500, function () {
+                            $(' .cartItemRemovedMessage' + data.ProductID).show();
+
+                            //update checkout information
+                            $('#sub-total').text(data.SubTotal);
+                            $('#subTotalSpan').text(data.SubTotalLabel);
+                            $('#cart-status').text(data.CartLabel);
+                        });
+                    }
+                ).fail(function (error) {
+                    //Alert error here
+                    console.error(error);
+                });
+            }
+        });
+
+        // Document.ready -> link up remove event handler
+        $(".quantityDropDown").change(function () {
+            // Get the id from the link
+            var recordToChange = $(this).attr("productIdQuantityToChange");
+            var quantity = $(this).val()
+            if (recordToChange != '') {
+                // Perform the ajax post
+                $.post("/Cart/UpdateCartItemQuantity", { "productId": recordToChange, "quantity": quantity },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        $('#sub-total').text(data.SubTotal);
+                        $('#subTotalSpan').text(data.SubTotalLabel);
+                        $('#cart-status').text(data.CartLabel);
+                    }
+                ).fail(function (error) {
+                    //Alert error here
+                    console.error(error);
+                });;
+            }
+        });
+
+        $(".saveForLaterButton").click(function () {
+            var recordToDelete = $(this).attr("productidtosave");
+        });
+    });
+</script>
+
+<div id="container">
+    <div id="leftColumn">
+        <div id="cartItemsContainer">
+            @foreach (var cartItemViewModel in Model.CartItemDTOs)
+            {
+                <div class="cartItemRowContainer">
+                    <div class="cartItemUpdateMessage">
+                        <div class="@string.Format("cartItemRemovedMessage{0}", cartItemViewModel.ProductID) invisible">
+                            @Html.ActionLink(cartItemViewModel.ProductName, Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new { productId = cartItemViewModel.ProductID }, null) removed from shopping cart
+                        </div>
+                    </div>
+                    <div class="cartItemContent @string.Format("productID{0}", cartItemViewModel.ProductID)">
+                        <div class="cartItemImage">
+                            <a href=@Url.Action(Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new {productId = cartItemViewModel.ProductID})>
+                                <img src=@Url.Content("~/Content/Images/5110DJ6RuKL._SS100_.jpg") alt="Paris" />
+                            </a>
+                        </div>
+                        <div class="contentNoImageContainer">
+                            <div class="cartItemInfo">
+                                <table class="cartItemInfoTable">
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action(Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new { productId = cartItemViewModel.ProductID })">
+                                                <span>@cartItemViewModel.ProductName</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class=@cartItemViewModel.StockMessageCssClass>@cartItemViewModel.StockMessage</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table class="cartItemActionLinksTable">
+                                                <tr>
+                                                    <td>
+                                                        <input type="button" class="removeCartItemButton" value="Remove" productidtodelete=@cartItemViewModel.ProductID />
+                                                    </td>
+                                                    <td>
+                                                        <input type="button" class="saveForLaterButton" value="Save For Later" productidtosave=@cartItemViewModel.ProductID />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="cartItemProductPrice">
+                                <span>@String.Format("{0:C}", cartItemViewModel.Price)</span>
+                            </div>
+                            <div class="cartItemQuantity">
+                                @Html.DropDownListFor(i => i.QuantitiesList[cartItemViewModel.CartItemID], Model.QuantitiesList[cartItemViewModel.CartItemID], new { @class = "quantityDropDown", productIdQuantityToChange = cartItemViewModel.ProductID })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="rightColumn">
+        <table id="checkout-info">
+            <tr>
+                <td id="sub-total-label" class="checkout-field-label">
+                    Subtotal <span id="subTotalSpan">(@(string.Format("{0} {1})", Model.CartItemsCount, Model.CartItemsCount == 1 ? "item" : "items"))</span>
+                </td>
+                <td id="sub-total" class="checkout-field-value">
+                    @Model.SubTotal.ToString("c")
+                </td>
+            </tr>
+            @if (Model.CartItemsCount > 0)
+            {
+                <tr>
+                    <td class="checkout-button-td" colspan="2">
+                        <input id="checkout-button" type="submit" value="Checkout" onclick="location.href='@Url.Action("OrderInfo", "Checkout")'" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

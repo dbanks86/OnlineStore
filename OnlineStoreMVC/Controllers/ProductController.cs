@@ -34,7 +34,7 @@ namespace OnlineStore.Controllers
             catch(Exception ex)
             {
                 ExceptionManager.LogException(ex, Path.GetFileName(Request.PhysicalPath));
-                return RedirectToAction(Constants.CONTROLLER_ACTION_ERROR, Constants.CONTROLLER_NAME_ERROR);
+                return RedirectToAction(Constants.CONTROLLER_ACTION_INDEX, Constants.CONTROLLER_ERROR);
             }
         }
 
@@ -79,7 +79,7 @@ namespace OnlineStore.Controllers
             catch (Exception ex)
             {
                 ExceptionManager.LogException(ex, Path.GetFileName(Request.PhysicalPath));
-                return RedirectToAction(Constants.CONTROLLER_ACTION_ERROR, Constants.CONTROLLER_NAME_ERROR);
+                return RedirectToAction(Constants.CONTROLLER_ACTION_INDEX, Constants.CONTROLLER_ERROR);
             }
         }
     }

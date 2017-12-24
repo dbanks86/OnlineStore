@@ -1,0 +1,44 @@
+﻿@model OnlineStoreServices.DTOs.AddToCartDTO
+
+@{
+    ViewBag.Title = "AddToCart";
+}
+
+<link href="@Url.Content("~/Content/AddToCart.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<div id="outerContainer">
+    <div>
+        <div id="addToCartStatusTableContainer">
+            <div id="addToCartStatusDiv">
+                <span id="addToCartStatusSymbol">&#10004 @*Code for a checkmark*@</span>
+                <span id="addToCartStatusMessage">@Html.ActionLink(Model.ProductName, Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new { productId = Model.ProductID }, null)</span>
+                <span> added to cart</span>
+            </div>
+        </div>
+        
+        <table id="addToCartTable">
+            <tr>
+                <td class="addToCartImageTd">
+                    <div class="cartItemImage">
+                        <a href=@Url.Action(Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new {productId = @Model.ProductID})>
+                            <img src=@Url.Content("~/Content/Images/placeholder.gif") alt="Paris" />
+                        </a>
+                    </div>
+                </td>
+                <td class="cartSubTotalTd">
+                    <span class="subTotalTitle">Cart Subtotal</span>
+                    <span class="cartItemsCountLabel"> (@Model.CartItemsCount @(Model.CartItemsCount == 1 ? "item" : "items")):</span>
+                    <span class="subTotalLabel">@String.Format("{0:c}", Model.SubTotal)</span>
+                </td>
+                <td class="cartButtonTd">
+                    <input class="cartButton" type="submit" value="Cart" onclick="location.href='@Url.Action(Constants.CONTROLLER_ACTION_INDEX, Constants.CONTROLLER_CART)'" />
+                </td>
+                <td class="checkoutButtonTd">
+                    <input class="checkoutButton" type="submit" value="Checkout" onclick="location.href='@Url.Action("OrderInfo", "Checkout")'" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

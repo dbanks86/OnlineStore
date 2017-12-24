@@ -16,7 +16,16 @@
         public const string CSS_CLASS_STOCK_INCLUSIVELY_BETWEEN_ONE_AND_FIVE = "stockBetween1And5";
         public const string CSS_CLASS_STOCK_GREATER_THAN_FIVE = "stockGreaterThan5";
 
-        public const string CONTROLLER_NAME_ERROR = "Error";
-        public const string CONTROLLER_ACTION_ERROR = "Index";
+        public const string CONTROLLER_PRODUCT = "Product";
+        public const string CONTROLLER_PRODUCT_ACTION_DETAILS = "Details";
+
+        public const string CONTROLLER_CART = "Cart";
+        public const string CONTROLLER_CART_ACTION_CART_SUMMARY = "CartSummary";
+
+        public const string CONTROLLER_ERROR = "Error";
+        
+        public const string CONTROLLER_ACTION_INDEX = "Index";
+
+        
     }
 }

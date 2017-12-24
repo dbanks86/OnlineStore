@@ -1,0 +1,98 @@
+﻿#outerContainer {
+    margin: 0 auto;
+    /*padding: 0 12px;
+    max-width: 1174px;
+    min-width: 1024px;*/
+    width: 75%;
+}
+
+#addToCartStatusTableContainer {
+    margin: 0 auto;
+    width: 900px;
+    min-width: 900px;
+    text-align: center;
+}
+
+#addToCartStatusDiv {
+    white-space: nowrap;
+    /* padding: 57px 0 0 0; */
+    display: inline-block;
+    min-width: 878px;
+}
+
+#addToCartStatusSymbol {
+    margin: 0 3px 0 0;
+    color: green;
+    font-size: 31px;
+}
+
+#addToCartStatusMessage {
+    text-align: center;
+    /*vertical-align: middle;*/
+    font-size: 20px;
+}
+
+#addToCartStatusTable a {
+    color: blue;
+}
+
+#addToCartTable {
+    width: 70%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #eeeeee;
+    border: 1px solid #aaaaaa;
+    min-width: 878px;
+}
+
+    #addToCartTable td {
+        white-space: nowrap;
+    }
+
+.addToCartImageTd {
+    width: 18%;
+    vertical-align: middle;
+}
+
+.cartSubTotalTd {
+    width: 58%;
+}
+
+.subTotalTitle {
+    font-weight: 600;
+}
+
+.cartItemsCountLabel {
+    color: blue;
+}
+
+.subTotalLabel {
+    color: green;
+}
+
+.cartButtonTd {
+    text-align: center;
+    width: 10%;
+}
+
+.cartButton {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: #555555;
+    color: white;
+}
+
+.checkoutButtonTd {
+    text-align: center;
+    width: 15%;
+}
+
+.checkoutButton {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: #555555;
+    color: white;
+}

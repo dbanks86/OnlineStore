@@ -10,33 +10,25 @@
 
 <div id="rightColumn">
     <div id="addToCartSectionContainer">
-        @using (Html.BeginForm("AddToCart", "Cart"))
+        @using (Html.BeginForm("AddToCart", Constants.CONTROLLER_CART))
         {
             @Html.AntiForgeryToken()
 
-            <div id="addToCartSection">
-                <div id="quantity">
-                    @*@Html.DropDownList("quantity")*@
-
-                    @*using "new { ProductID = Model.ProductID}" as third parameter of Html.BeginForm('ActionName', 'ControllerName', objectValues) would work too to pass ProductID to specfied controller*@
-                    @Html.HiddenFor(x => x.Product.ProductID)
-                    @Html.DropDownListFor(x => x.SelectedQuantity, Model.QuantitiesList, new {@class = "quantityDropDown"})
-                </div>
-                <div id="addToCartButtonContainer">
-                    @if (Model.Product.StockCount == 0)
-                    {
-                        <div id="addToCartButton">
-                            <input type="submit" disabled="disabled" value="Add to Cart" class="disabled" />
-                        </div>
-                    }
-                    else
-                    {
+            if (Model.StockCount != 0)
+            {
+                <div id="addToCartSection">
+                    <div id="quantity">
+                        @*using "new { ProductID = Model.ProductID}" as third parameter of Html.BeginForm('ActionName', 'ControllerName', objectValues) would work too to pass ProductID to specfied controller*@
+                        @Html.HiddenFor(x => x.ProductID)
+                        @Html.DropDownListFor(x => x.SelectedQuantity, Model.QuantitiesList, new { @class = "quantityDropDown" })
+                    </div>
+                    <div id="addToCartButtonContainer">
                         <div id="addToCartButton">
                             <input type="submit" value="Add to Cart" />
                         </div>
-                    }
+                    </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
@@ -47,13 +39,13 @@
     <div id="titleDiv">
         <h1 id="productTitleHeader">
             <span id="productTitleSpan">
-                @Model.Product.Name
+                @Model.Name
             </span>
         </h1>
     </div>
     <div id="priceDiv">
         <span>Price:</span>
-        <span ID="priceLabel" class="priceLabel">@String.Format("{0:c}", Model.Product.Price)</span>
+        <span ID="priceLabel" class="priceLabel">@string.Format("{0:c}", Model.Price)</span>
     </div>
     <div id="stockCount">
         <span class=@Model.StockMessageCssClass>@Model.StockMessage</span>
