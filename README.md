@@ -1,6 +1,7 @@
 # OnlineStore
 
 A mock online store implemented using the n-tier architecture pattern
+Areas of Programming: C#, ASP.NET MVC, ASP.NET Web Forms, SQL, HTML, CSS (including CSS3), JavaScript, JQuery, AJAX
 
 - OnlineStoreModels
   - Contains classes mapped to database using object relational mapping (ORM)
