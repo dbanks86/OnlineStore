@@ -60,7 +60,7 @@ namespace OnlineStore.Controllers
             {
                 var userEmail = CookieManager.GetEmailFromUserCookie();
                 
-                AddToCartDTO addToCartViewModel;
+                AddToCartDTO addToCartDto;
 
                 //This would mean that the user has logged in from the AddToCart page (using login link on top right of page).
                 //Therefore, the ProductViewModel parameter quantity value will be zero in this exceptional case.
@@ -70,12 +70,12 @@ namespace OnlineStore.Controllers
                     var userCartItems = services.CartService.GetUserCartItems(userEmail);
 
                     //create associated viewmodel and pass into view
-                    addToCartViewModel = new AddToCartDTO();
-                    addToCartViewModel.ProductID = model.ProductID;
-                    addToCartViewModel.ProductName = model.Name;
-                    addToCartViewModel.CartItemsCount = userCartItems.Count();
-                    addToCartViewModel.SubTotal = userCartItems.Sum(ci => ci.Product.Price * ci.Quantity);
-                    return View(addToCartViewModel);
+                    addToCartDto = new AddToCartDTO();
+                    addToCartDto.ProductID = model.ProductID;
+                    addToCartDto.ProductName = model.ProductName;
+                    addToCartDto.CartItemsCount = userCartItems.Count();
+                    addToCartDto.SubTotal = userCartItems.Sum(ci => ci.Product.Price * ci.Quantity);
+                    return View(addToCartDto);
                 }
 
                 // Get the matching cart and product instances
@@ -105,13 +105,13 @@ namespace OnlineStore.Controllers
                 var cartItems = services.CartService.GetUserCartItems(userEmail, Constants.DATABASE_TABLE_PRODUCTS);
 
                 //create associated viewmodel and pass into view
-                addToCartViewModel = new AddToCartDTO();
-                addToCartViewModel.ProductID = cartItem.ProductID;
-                addToCartViewModel.ProductName = cartItem.Product.Name;
-                addToCartViewModel.CartItemsCount = cartItems.Count();
-                addToCartViewModel.SubTotal = cartItems.Sum(ci => ci.Product.Price * ci.Quantity);
+                addToCartDto = new AddToCartDTO();
+                addToCartDto.ProductID = cartItem.ProductID;
+                addToCartDto.ProductName = cartItem.Product.Name;
+                addToCartDto.CartItemsCount = cartItems.Count();
+                addToCartDto.SubTotal = cartItems.Sum(ci => ci.Product.Price * ci.Quantity);
 
-                return View(addToCartViewModel);
+                return View(addToCartDto);
             }
             catch (Exception ex)
             {
@@ -221,7 +221,7 @@ namespace OnlineStore.Controllers
                 var userCookie = CookieManager.GetUserCookie();
                 if (userCookie != null)
                 {
-                    var userEmail = userCookie[Constants.USER_EMAIL_COOKIE_KEY];
+                    var userEmail = userCookie[Constants.COOKIE_KEY_USER_SUB_KEY_USER_EMAIL];
 
                     var cart = services.CartService.GetUserCartItems(userEmail);
 

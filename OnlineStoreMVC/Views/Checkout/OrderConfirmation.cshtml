@@ -1,0 +1,116 @@
+﻿@model OnlineStoreServices.DTOs.OrderConfirmationDTO
+
+<link href="@Url.Content("~/Content/Form.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<link href="@Url.Content("~/Content/OrderConfirmation.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<div id="container">
+    <div id="leftColumn">
+        <div id="shipping-info" class="content-group">
+            <div id="shipping-info-header" class="content-group-header">
+                <span>Shipping</span>
+            </div>
+            <div id="shipping-info-body" class="content-group-body">
+                <div class="shipping-info-row">
+                    <div class="shipping-info-column">
+                        <div class="shipping-info-column-header">
+                            <div>Shipping Address</div>
+                        </div>
+                        @Html.Label(string.Format("{0} {1}", Model.Order.FirstName, Model.Order.LastName), new { @class = "shipping-address-line" })
+                        @Html.Label(Model.Candidate.DeliveryLine1, new { @class = "shipping-address-line" })
+                        @Html.Label(Model.Candidate.LastLine, new { @class = "shipping-address-line" })
+                    </div>
+                    <div class="shipping-info-column payment-method">
+                        <div class="shipping-info-column-header">
+                            <div>Payment Method</div>
+                        </div>
+                        @Html.DisplayFor(model => model.Candidate.DeliveryLine1, new { @class = "shipping-address-line" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cart-items" class="content-group">
+            <div id="cart-items-header" class="content-group-header">
+                <span>Items</span>
+            </div>
+            <div id="cart-items-body" class="content-group-body">
+                @foreach (var cartItem in Model.CartItems)
+                {
+                    <div class="cart-item-row">
+                        <div class="product-image">
+                            <img src="/Content/Images/5110DJ6RuKL._SS100_.jpg" alt="Paris" />
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name product-info-row">Product Name</div>
+                            <div class="product-price product-info-row">
+                                @cartItem.Product.Price.ToString("C")
+                            </div>
+                            <div class="product-quantity-section product-info-row">
+                                <label class="cart-item-product-info-title">Quantity:</label> <label class="product-quantity">@cartItem.Quantity</label>
+                            </div>
+                            <div class="product-subtotal-section product-info-row">
+                                <label class="cart-item-product-info-title">Subtotal:</label><label class="product-subtotal"> @((cartItem.Product.Price * cartItem.Quantity).ToString("C"))</label>
+                            </div>
+                        </div>
+                    </div>
+                    //NOTE: Can use <hr> tag inside a div (placing <hr> tag cart-item-row div) along with negative margin left and right values (if necessary) instead
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+
+    <div id="rightColumn">
+        <div id="order-summary" class="content-group">
+            <div id="order-summary-header" class="content-group-header">
+                <span>Order Summary</span>
+            </div>
+            <div id="order-summary-body" class="content-group-body">
+                <div class="order-summary-row">
+                    <strong>Order Number</strong>
+                    @Html.Label(Model.Order.OrderID.ToString(), new {@class = "order-number float-right" })
+                </div>
+
+                <div class="order-summary-row">
+                    <strong>Order Date</strong>
+                    <div class="order-date float-right">@Model.Order.OrderDate.ToString("dddd, MMMM d")</div>
+                </div>
+                <hr />
+                <div class="order-summary-row">
+                    <strong>Delivery Date</strong>
+                    <div class="delivery-date float-right">@DateTime.Today.AddDays(Model.ShippingOption.ExpectedDeliveryDays).ToString("dddd, MMMM d")</div>
+                </div>
+                <hr />
+                <div class="order-summary-row">
+                    <strong>Tracking #</strong>
+                    <div class="tracking-number float-right">284705796336876435566899654</div>
+                </div>
+                <hr />
+                <div class="order-summary-row">
+                    <strong>Subtotal</strong>
+                    <div class="subTotal float-right">@Model.Order.SubTotal.ToString("C")</div>
+                </div>
+                
+                <div class="order-summary-row">
+                    <strong class="shippingOptionName">Shipping</strong>
+                    <div class="shippingPrice float-right">@(Model.ShippingOption.Price.HasValue ? Model.ShippingOption.Price.Value.ToString("C") : "FREE")</div>
+                </div>
+
+                <div class="order-summary-row">
+                    <strong>Tax</strong>
+                    <div class="salesTax float-right">@(Model.Order.SalesTax.HasValue ? Model.Order.SalesTax.Value.ToString("C") : "$0.00")</div>
+                </div>
+                <hr />
+                <div class="order-summary-row">
+                    <strong id="order-total-label">Order Total</strong>
+                    <div class="orderTotal float-right">@Model.Order.Total.ToString("C")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
