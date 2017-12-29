@@ -1,0 +1,242 @@
+﻿#header {
+    float: left;
+    width: 100%;
+    border-bottom: 1px dotted #5D5A53;
+    margin-bottom: 10px;
+    background-color: black;
+    /*min-width: 1000px;*/
+}
+
+    #header #headerContainer {
+        display: table;
+        width: 100%;
+    }
+
+        #header #headerContainer #headerLeft {
+            display: table-cell;
+            height: 20%;
+            /*width: 25%;*/
+            vertical-align: middle;
+        }
+
+            #header #headerContainer #headerLeft a {
+                color: white;
+            }
+
+        #header #headerContainer #headerMiddle {
+            display: table-cell;
+            height: 20%;
+            width: 83%;
+            vertical-align: middle;
+            padding: 0 0 0 2%;
+        }
+
+            #header #headerContainer #headerMiddle #headerMiddleContainer {
+                /*display: table;*/
+                width: 100%;
+            }
+
+                #header #headerContainer #headerMiddle #headerMiddleContainer #headerMiddleContainerLeft {
+                    /*display: table-cell;
+                    width: 15%;*/
+                }
+
+                #header #headerContainer #headerMiddle #headerMiddleContainer #headerMiddleContainerMiddle {
+                    display: table-cell;
+                    width: 100%;
+                }
+
+                    #header #headerContainer #headerMiddle #headerMiddleContainer #headerMiddleContainerMiddle input[type=text] {
+                        height: 100%;
+                        width: 100%;
+                        font-size: 16px;
+                    }
+
+                #header #headerContainer #headerMiddle #headerMiddleContainer #headerMiddleContainerRight {
+                    display: table-cell;
+                    width: 15%;
+                }
+
+                    #header #headerContainer #headerMiddle #headerMiddleContainer #headerMiddleContainerRight input[type=submit] {
+                        padding: 5px;
+                        color: red;
+                        background-color: black;
+                        border: 1px solid red;
+                        font-size: 15px;
+                        font-weight: 600;
+                    }
+
+        #header #headerContainer #headerRight {
+            display: table-cell;
+            height: 20%;
+            width: 25%;
+        }
+
+    #header h1 {
+        font-size: 18px;
+        float: left;
+        background: url(/content/Images/logo.png) no-repeat;
+        padding: 5px 0px 5px 0px;
+        white-space: nowrap;
+    }
+
+ul#navlist {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    float: right;
+    /*background-color: #333;*/
+}
+
+
+#navlist li {
+    /*float: left;*/
+    display: inline-block;
+}
+
+    #navlist li a {
+        color: white;
+        display: inline-block;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+/* #region Account Dropdown in Nav Bar */
+/* Dropdown Button */
+#navlist .dropbtn {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#navlist li a:hover {
+    background-color: red;
+}
+
+#navlist li.dropdown {
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+#navlist .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+    /* Links inside the dropdown */
+    #navlist .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+        /* Change color of dropdown links on hover */
+        #navlist .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+/* Show the dropdown menu on hover */
+#navlist .dropdown:hover .dropdown-content {
+    display: block;
+}
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: red;
+}
+/*#endregion*/
+
+/* #region Dropdown in Nav Bar for Mobile*/
+#navlist li.icon {
+    display: none;
+}
+/* When the screen is less than 680 pixels wide, hide all list items, except for the first one ("Home"). Show the list item that contains the link to open and close the topnav (li.icon) */
+@media screen and (max-width:680px) {
+    /*ul#navlist li:not(:first-child) {display: none;}*/
+    ul#navlist li, ul#navlist li.dropdown {
+        display: none;
+    }
+
+        ul#navlist li.icon {
+            float: right;
+            display: inline-block;
+        }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens */
+@media screen and (max-width:680px) {
+    #navlist li span {
+        color: white;
+        display: inline-block;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #navlist li span:hover {
+    background-color: red;
+}
+
+    #navlist.responsive .responsive-dropdown-content {
+        display: block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    #navlist .responsive-dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+    }
+
+        /* Links inside the dropdown */
+        #navlist .responsive-dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+            /* Change color of dropdown links on hover */
+            #navlist .responsive-dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+        /* Show the dropdown menu on hover */
+        #navlist .responsive-dropdown-content:hover .repsonsive-dropdown-content {
+            display: block;
+        }
+}
+/*#endregion*/
+
+
+#searchProduct {
+    width: 100%;
+}
+
+.loginButton {
+    padding: 0;
+    border: none;
+    background: 0 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #007dc6;
+}

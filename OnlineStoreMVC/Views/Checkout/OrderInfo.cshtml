@@ -1,0 +1,242 @@
+﻿@model OnlineStore.ViewModels.CheckoutViewModel
+
+@{
+    Layout = "";
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"
+        type="text/javascript"></script>
+
+<link href="@Url.Content("~/Content/OrderInfo.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<link href="@Url.Content("~/Content/Form.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<link href="@Url.Content("~/Content/Site.css")"
+      rel="stylesheet"
+      type="text/css" />
+
+<script type="text/javascript">
+    $(function () {
+        $(".shippingOptionRadioButton").change(function () {
+            // Get the id from the link
+            var shippingId = $(this).val()
+
+            // Perform the ajax post
+            $.post("/Checkout/UpdateShippingOption", { "shippingOptionId": shippingId },
+                function (data) {
+
+                    // Successful requests get here
+                    // Update the page elements
+                    $('.subTotal').text(data.SubTotal);
+                    $('.salesTax').text(data.SalesTax);
+                    $('.orderTotal').text(data.Total);
+                    $('.shippingPrice').text(data.ShippingPrice);
+                }
+            );
+        });
+    })
+
+    $(window).scroll(function () {
+        //Get coordinates of element
+        elementCoordinates = $('#rightColumn').offset();
+
+        //Get Y coordinate of element (Y increases going downward)
+        elementCoordinateY = elementCoordinates.top;
+
+        //Get scroll position of element (0 if scrollbar is not present or scrollbar is scrolled upward as possible
+        scrollPosition = $(window).scrollTop();
+
+        elementCoordinateYScrollPositionDifference = elementCoordinateY - scrollPosition;
+
+        //check if scrollbar is not scrolled as upward as possible
+        if (elementCoordinateYScrollPositionDifference < 0) {
+            $('#order-summary').addClass('fixed');
+            $('#order-summary').addClass('fixedWidth');
+
+            $('#shipping-options').addClass('fixed');
+            $('#shipping-options').addClass('fixedWidth');
+            $('#shipping-options').addClass('marginTop');
+        }
+        else {
+            $('#order-summary').removeClass('fixed');
+            $('#order-summary').removeClass('fixedWidth');
+
+            $('#shipping-options').removeClass('fixed');
+            $('#shipping-options').removeClass('fixedWidth');
+            $('#shipping-options').removeClass('marginTop');
+        }
+    });
+
+
+</script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="headerContainer">
+        <div id="header">
+            <div class="headerRow">
+                <div class="cartLink">
+                    @{Html.RenderAction("CheckoutHeaderCenter");}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="leftColumn">
+            <div id="shipping-info" class="content-group">
+                <div id="shipping-info-header" class="content-group-header">
+                    <span>Address</span>
+                </div>
+                <div id="shipping-info-body" class="content-group-body">
+                    <div class="field-group">
+                        <h4>Shipping Address</h4>
+                    </div>
+                    @*@Html.ValidationSummary(true, "", new { @class = "field-error" })*@
+                    <div class="multi-field-row">
+                        <div class="col_1_of_2">
+                            <div class="field-group">
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "field-label" })
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "field-value" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "field-error" })
+                            </div>
+                        </div>
+                        <div class="col_1_of_2">
+                            <div class="field-group">
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "field-label" })
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "field-value" } })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "field-error" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "field-error" })
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.AptSuiteEtc, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.AptSuiteEtc, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.AptSuiteEtc, "", new { @class = "field-error" })
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "field-error" })
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "field-error" })
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(model => model.ZipCode, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "field-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cart-items" class="content-group">
+                <div id="cart-items-header" class="content-group-header">
+                    <span>Items</span>
+                </div>
+                <div id="cart-items-body" class="content-group-body">
+                    @foreach (var cartItem in Model.CartItemDTOs)
+                    {
+                        <div class="cart-item-row">
+                            <div class="product-image col_1_of_4">
+                                <img src=@Url.Content("~/Content/Images/19681864394_c332ae87df_t.jpg") alt="Paris" />
+                            </div>
+                            <div class="product-name col_1_of_2">
+                                @cartItem.ProductName
+                                <div class="product-quantity">
+                                    Qty: @cartItem.Quantity
+                                </div>
+                                <div class="@cartItem.StockMessageCssClass">
+                                    @cartItem.StockMessage
+                                </div>
+                            </div>
+                            <div class="product-price col_1_of_4 text-right">
+                                @((cartItem.Price * cartItem.Quantity).ToString("C"))
+                            </div>
+                        </div>
+                        @*NOTE: Can use <hr> tag inside a div (placing <hr> tag cart-item-row div) along with negative margin left and right values (if necessary) instead*@
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div id="rightColumn">
+            <div id="order-summary" class="content-group">
+                <div id="order-summary-header" class="content-group-header">
+                    <span>Order Summary</span>
+                </div>
+                <div id="order-summary-body" class="content-group-body">
+                    <div class="order-summary-row">
+                        <strong>Subtotal</strong>
+                        <div class="subTotal float-right">@Model.SubTotal.ToString("C")</div>
+                    </div>
+
+                    <div class="order-summary-row">
+                        <strong class="shippingOptionName">Shipping</strong>
+                        <div class="shippingPrice float-right">@(Model.SelectedShippingOptionPrice == null ? "FREE" : Model.SelectedShippingOptionPrice.Value.ToString("C"))</div>
+                    </div>
+
+                    <div class="order-summary-row">
+                        <strong>Tax</strong>
+                        <div class="salesTax float-right">@Model.SalesTax.Value.ToString("C")</div>
+                    </div>
+
+                    <div class="order-summary-row">
+                        <strong>Order Total</strong>
+                        <div class="orderTotal float-right">@Model.OrderTotal.ToString("C")</div>
+                    </div>
+
+                    <div id="submitOrderContainer" class="">
+                        <input id="submit-order-button" type="submit" value="Place Order" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="shipping-options" class="content-group">
+                <div id="shipping-options-header" class="content-group-header">
+                    <span>Shipping Options</span>
+                </div>
+                <div id="shipping-options-body" class="content-group-body">
+                    @foreach (var shippingOption in Model.ShippingOptions)
+                    {
+                        <label for="@(string.Format("ShippingOptionID{0}", shippingOption.ShippingOptionID))" class="shipping-option-row">
+                            @Html.RadioButtonFor(model => model.ShippingOptionID, shippingOption.ShippingOptionID, new { @class = "shippingOptionRadioButton", @id = string.Format("ShippingOptionID{0}", shippingOption.ShippingOptionID) })
+                            <span class="shippingOptionContent">
+                                <span class="arrivalDate">@DateTime.Today.AddDays(shippingOption.ExpectedDeliveryDays).ToString("dddd, MMMM d")</span>
+                                <span class="shippingInfo">@(shippingOption.Price.HasValue ? shippingOption.Price.Value.ToString("C") : "FREE") - @shippingOption.Name</span>
+                            </span>
+                        </label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+                        }

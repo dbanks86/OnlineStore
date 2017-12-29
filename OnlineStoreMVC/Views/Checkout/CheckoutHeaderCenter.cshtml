@@ -1,0 +1,11 @@
+﻿@{ 
+    var cartItemsCount = Convert.ToInt32(ViewData["CartCount"]);
+}
+<label>Checkout (@Html.ActionLink(
+string.Format("{0} {1}", cartItemsCount, cartItemsCount == 1 ? "item" : "items"),
+Constants.CONTROLLER_ACTION_INDEX,
+Constants.CONTROLLER_CART,
+null,
+new { id = "cart-status" }))</label>
+
+

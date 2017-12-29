@@ -1,0 +1,35 @@
+﻿@{
+    var userCookie = OnlineStore.Managers.CookieManager.GetUserCookie();
+}
+@if (userCookie != null &&
+                System.Text.RegularExpressions.Regex.IsMatch(userCookie[Constants.COOKIE_KEY_USER_SUB_KEY_USER_EMAIL].ToString(), Constants.REGEX_PATTERN_EMAIL))
+{
+    <span class="responsive-dropbtn">&#9776;</span>
+    <div id="responsiveLogoutPanel" class="responsive-dropdown-content">
+        @Html.ActionLink(
+    "Sign Out",
+    "Logout",
+    "Account",
+    null,
+    null)
+
+        @{Html.RenderAction(Constants.CONTROLLER_CART_ACTION_CART_SUMMARY, Constants.CONTROLLER_CART);}
+    </div>
+}
+else
+{
+    <span class="responsive-dropbtn">&#9776;</span>
+
+    <div id="responsiveLoginPanel" class="responsive-dropdown-content">
+        @Html.ActionLink(
+    "Login",
+    "Login",
+    "Account",
+    new { returnUrl = ViewBag.ReturnUrl },
+    null)
+
+        @{Html.RenderAction(Constants.CONTROLLER_CART_ACTION_CART_SUMMARY, Constants.CONTROLLER_CART);}
+    </div>
+}
+
+

@@ -1,0 +1,41 @@
+﻿@{
+    var userCookie = OnlineStore.Managers.CookieManager.GetUserCookie();
+}
+@if (userCookie != null &&
+    System.Text.RegularExpressions.Regex.IsMatch(userCookie[Constants.COOKIE_KEY_USER_SUB_KEY_USER_EMAIL].ToString(), Constants.REGEX_PATTERN_EMAIL))
+{
+    @Html.ActionLink(
+    userCookie[Constants.COOKIE_KEY_USER_SUB_KEY_USER_FIRSTNAME].ToString(),
+    "Index",
+    "Account",
+    null,
+    new { @class = "dropbtn" })
+    <div id="logoutPanel" class="dropdown-content">
+        @Html.ActionLink(
+    "Sign Out",
+    "Logout",
+    "Account",
+    null,
+    null)
+    </div>
+}
+else
+{
+    @Html.ActionLink(
+    "Login",
+    "Login",
+    "Account",
+    null,
+    new { @class = "dropbtn" })
+
+    <div id="loginPanel" class="dropdown-content">
+        @Html.ActionLink(
+    "Login",
+    "Login",
+    "Account",
+    new { returnUrl = ViewBag.ReturnUrl },
+    null)
+    </div>
+
+}
+

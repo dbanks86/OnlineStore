@@ -51,7 +51,7 @@ namespace OnlineStore.Controllers
 
                 ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel();
                 productDetailsViewModel.ProductID = product.ProductID;
-                productDetailsViewModel.Name = product.Name;
+                productDetailsViewModel.ProductName = product.Name;
                 productDetailsViewModel.Price = product.Price;
                 productDetailsViewModel.StockCount = product.StockCount;
 

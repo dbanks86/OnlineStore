@@ -1,0 +1,272 @@
+﻿body {
+    font-size: 14px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #555;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.float-right {
+    float: right;
+}
+
+.content-group {
+    width: 100%;
+    border: 1px solid #999;
+    border-radius: 1px;
+    margin-bottom: 20px;
+}
+
+.content-group-header {
+    background-image: linear-gradient(to bottom, #555 0px, #888 100%);
+    padding: 10px 15px;
+    color: #eee;
+}
+
+.content-group-body {
+    padding: 15px;
+}
+
+.fixed {
+    position: fixed;
+    top: 0px;
+}
+
+.fixedWidth {
+    /*padding-top: 110px;*/
+    width: 492px !important;
+}
+
+.marginTop {
+    margin: 257px 0 0 0;
+}
+
+#container {
+    /*min-width: 998px;*/
+    /* padding: 14px 18px 18px; */
+    margin: 0 auto;
+    width: 1260px;
+}
+
+    #container:before {
+        content: "";
+        display: table;
+    }
+
+    #container:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+#leftColumn {
+    /*overflow: hidden;
+    zoom: 1;
+    width: auto;*/
+    float: left;
+    width: 60%;
+    padding: 0 12px 0 0;
+}
+
+#rightColumn {
+    float: left;
+    width: 40%;
+    padding: 0 0 0 12px;
+}
+
+.shipping-info-column{
+    display: inline-block;
+    padding: 0 15px;
+}
+.shipping-info-column-header{
+    font-weight: bold;
+}
+.shipping-address-line{
+    display: block;
+}
+
+.payment-method{
+    vertical-align: top;
+}
+
+.cart-item-row {
+    padding: 18px 13px;
+}
+
+    .cart-item-row:not(:last-child) {
+        /*border-bottom: 1px solid #bbb;*/ /*NOTE: Can use <hr> tag along with negative margin values (if necessary) instead*/
+    }
+
+    .cart-item-row:before {
+        content: "";
+        display: table;
+    }
+
+    .cart-item-row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+#cart-items-body {
+    padding: 0 !important;
+}
+
+.product-image {
+    width: 19%;
+    float:left;
+    padding: 0 15px;
+}
+
+    .product-image img {
+        max-width: 100%;
+    }
+
+.product-info {
+    width: 75%;
+    float: left;
+}
+
+.product-info-row{
+    margin: 0 0 6px 0;
+}
+
+.cart-item-product-info-title{
+    font-weight: 600;
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 23px;
+}
+
+.product-price {
+    color: #AA0000;
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.product-quantity {
+
+}
+
+.product-subtotal {
+
+}
+
+#order-summary hr{
+    margin: 30px 0
+}
+
+.order-summary-row {
+    margin: 0 0 15px 0;
+}
+
+    .order-summary-row:before {
+        content: "";
+        display: table;
+    }
+
+    .order-summary-row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+#order-total-label{
+    font-size: 20px;
+}
+.orderTotal{
+    font-size: 20px;
+}
+
+.arrivalDate {
+    display: block;
+    color: green;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+
+/*NOTE: fixed width pixels values of .fixedWidth class comes from width of right column in each case of media query*/
+/*NOTE: Values of each width for each media query case was come from value stated using inspect element of web browser*/
+@media only screen and (max-width: 1300px) {
+    #container {
+        /*min-width: 998px;*/
+        /* padding: 14px 18px 18px; */
+        margin: 0 auto;
+        width: 1070px;
+    }
+
+    .fixedWidth {
+        /*padding-top: 110px;*/
+        width: 416px !important;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    #container {
+        /*min-width: 998px;*/
+        /* padding: 14px 18px 18px; */
+        margin: 0 auto;
+        width: 900px;
+    }
+
+    #leftColumn #shipping-info .col_1_of_2 {
+        width: 100%;
+    }
+
+    .fixedWidth {
+        /*padding-top: 110px;*/
+        width: 348px !important;
+    }
+}
+
+@media only screen and (max-width: 910px) {
+    #container {
+        /*min-width: 998px;*/
+        /* padding: 14px 18px 18px; */
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    #leftColumn #shipping-info .col_1_of_2 {
+        width: 50%;
+    }
+
+    .cartLink {
+        width: 45%;
+    }
+
+    #leftColumn {
+        width: 100%;
+        padding: 0;
+    }
+
+    #rightColumn {
+        width: 100%;
+        padding: 0;
+    }
+
+    .fixed {
+        position: static;
+    }
+
+    .fixedWidth {
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #leftColumn #shipping-info .col_1_of_2 {
+        width: 100%;
+    }
+}
