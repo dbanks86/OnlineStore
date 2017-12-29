@@ -15,7 +15,6 @@ namespace OnlineStore.Controllers
 {
     public class CheckoutController : Controller
     {
-        readonly OnlineStoreEntities storeDB = new OnlineStoreEntities();
         readonly Services services = new Services();
         // GET: Checkout
         public ActionResult Index()
