@@ -9,10 +9,10 @@ Areas of Programming: C#, ASP.NET MVC, ASP.NET Web Forms, SQL, HTML, CSS (includ
     - Entity Framework
 
 - OnlineStoreDataAccessLayer
-  - Perform CRUD operation on database
+  - Performs CRUD operation on database
   
 - OnlineStoreServices
-  - Call methods of OnlineStoreDataAccessLayer and provides Data Transfer Objects (DTO) that can be used across various user interfaces (UI)
+  - Calls methods of OnlineStoreDataAccessLayer and provides Data Transfer Objects (DTO) that can be used across various user interfaces (UI)
   
 - OnlineStoreMVC
   - User interface (UI) that uses the MVC framework of ASP.NET
