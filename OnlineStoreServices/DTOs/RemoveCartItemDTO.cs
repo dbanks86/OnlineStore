@@ -3,6 +3,11 @@
     public class RemoveCartItemDTO
     {
         /// <summary>
+        /// ID of cart item removed from cart
+        /// </summary>
+        public int CartItemID { get; set; }
+
+        /// <summary>
         /// Sum of each cart item price * each cart item quantity
         /// </summary>
         public int CartItemsCount { get; set; }

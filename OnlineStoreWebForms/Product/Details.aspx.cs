@@ -1,6 +1,5 @@
 ﻿using OnlineStore.Managers;
 using OnlineStoreModels;
-using OnlineStoreServices.DTOs;
 using OnlineStoreServices.Services;
 using System;
 using System.IO;
@@ -11,6 +10,7 @@ namespace OnlineStore.ProductController
     public partial class Details : System.Web.UI.Page
     {
         Services services = new Services();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -44,7 +44,7 @@ namespace OnlineStore.ProductController
                         {
                             stockLabel.Text = string.Format("Only {0} in stock", stockCount);
                             stockLabel.CssClass = Constants.CSS_CLASS_STOCK_INCLUSIVELY_BETWEEN_ONE_AND_FIVE;
-                            ddlQuantity.DataSource = Enumerable.Range(1, product.StockCount < 4 ? product.StockCount : 4);
+                            ddlQuantity.DataSource = Enumerable.Range(1, product.StockCount > 4 ? 4 : product.StockCount);
                             ddlQuantity.DataBind();
                         }
 
@@ -67,7 +67,7 @@ namespace OnlineStore.ProductController
             {
                 var productId = int.Parse(Request.QueryString["ProductID"]);
 
-                var userEmail = CartManager.GetCart();
+                var userEmail = CookieManager.GetEmailFromUserCookie();
 
                 // Get the matching cart and product instances
                 var cartItem = services.CartService.GetCartItem(userEmail, productId);
@@ -78,7 +78,7 @@ namespace OnlineStore.ProductController
                     cartItem = new CartItem
                     {
                         ProductID = productId,
-                        Email = Session[Constants.EMAIL_SESSION_KEY].ToString(),
+                        Email = userEmail,
                         Quantity = int.Parse(ddlQuantity.Text),
                         DateCreated = DateTime.Now,
                     };
