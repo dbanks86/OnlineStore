@@ -1,7 +1,9 @@
-﻿@model OnlineStore.ViewModels.CartViewModel
+﻿@model OnlineStoreServices.DTOs.CartDTO<OnlineStore.ViewModels.CartItemViewModel>
 
 @{
     ViewBag.Title = "Index(Using Table for Cart Items)";
+    var subtotal = Model.SubTotal;
+    var cartItemsCount = Model.CartItemsCount;
 }
 
 <link href="@Url.Content("~/Content/Cart.css")"
@@ -20,9 +22,10 @@
 
             if (recordToDelete != '') {
                 // Perform the ajax post
-                $.post("/Cart/RemoveFromCart", { "productId": recordToDelete },
+                $.post("/Cart/RemoveCartItem", { "productId": recordToDelete },
                     function (data) {
                         // Successful requests get here
+
                         // Update the page elements
                         $('.productID' + data.ProductID).fadeOut(500, function () {
                             $(' .cartItemRemovedMessage' + data.ProductID).show();
@@ -50,6 +53,7 @@
                 $.post("/Cart/UpdateCartItemQuantity", { "productId": recordToChange, "quantity": quantity },
                     function (data) {
                         // Successful requests get here
+
                         // Update the page elements
                         $('#sub-total').text(data.SubTotal);
                         $('#subTotalSpan').text(data.SubTotalLabel);
@@ -82,7 +86,7 @@
                     <div class="cartItemContent @string.Format("productID{0}", cartItemViewModel.ProductID)">
                         <div class="cartItemImage">
                             <a href=@Url.Action(Constants.CONTROLLER_PRODUCT_ACTION_DETAILS, Constants.CONTROLLER_PRODUCT, new {productId = cartItemViewModel.ProductID})>
-                                <img src=@Url.Content("~/Content/Images/5110DJ6RuKL._SS100_.jpg") alt="Paris" />
+                                <img src=@Url.Content("~/Content/Images/19681864394_c332ae87df_t.jpg") alt="Images" />
                             </a>
                         </div>
                         <div class="contentNoImageContainer">
@@ -120,7 +124,7 @@
                                 <span>@String.Format("{0:C}", cartItemViewModel.Price)</span>
                             </div>
                             <div class="cartItemQuantity">
-                                @Html.DropDownListFor(i => i.QuantitiesList[cartItemViewModel.CartItemID], Model.QuantitiesList[cartItemViewModel.CartItemID], new { @class = "quantityDropDown", productIdQuantityToChange = cartItemViewModel.ProductID })
+                                @Html.DropDownListFor(ciViewModel => cartItemViewModel.Quantity, cartItemViewModel.QuantityDropDown, new { @class = "quantityDropDown", productIdQuantityToChange = cartItemViewModel.ProductID })
                             </div>
                         </div>
                     </div>
@@ -133,13 +137,13 @@
         <table id="checkout-info">
             <tr>
                 <td id="sub-total-label" class="checkout-field-label">
-                    Subtotal <span id="subTotalSpan">(@(string.Format("{0} {1})", Model.CartItemsCount, Model.CartItemsCount == 1 ? "item" : "items"))</span>
+                    Subtotal <span id="subTotalSpan">(@(string.Format("{0} {1})", cartItemsCount, cartItemsCount == 1 ? "item" : "items"))</span>
                 </td>
                 <td id="sub-total" class="checkout-field-value">
-                    @Model.SubTotal.ToString("c")
+                    @subtotal.ToString("C")
                 </td>
             </tr>
-            @if (Model.CartItemsCount > 0)
+            @if (cartItemsCount > 0)
             {
                 <tr>
                     <td class="checkout-button-td" colspan="2">

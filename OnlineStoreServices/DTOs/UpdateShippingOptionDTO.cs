@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineStoreServices.DTOs
+﻿namespace OnlineStoreServices.DTOs
 {
     /// <summary>
     /// Used in AJAX Requests to methods.

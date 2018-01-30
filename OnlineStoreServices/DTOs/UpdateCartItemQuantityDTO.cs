@@ -5,7 +5,7 @@
         /// <summary>
         /// Sum of each cart item price * each cart item quantity
         /// </summary>
-        public string CartItemsCount { get; set; }
+        public int CartItemsCount { get; set; }
 
         /// <summary>
         /// Sum of each cart item price * cart item quantity

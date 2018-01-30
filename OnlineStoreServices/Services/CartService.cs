@@ -3,6 +3,7 @@ using OnlineStoreModels;
 using OnlineStoreServices.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineStoreServices.Services
 {
@@ -103,6 +104,16 @@ namespace OnlineStoreServices.Services
         public void MigrateCart(string email, string anonymousGuid)
         {
             repositories.CartRepository.MigrateCart(email, anonymousGuid);
+        }
+
+        public decimal GetSubtotal(IEnumerable<CartItem> cartItems)
+        {
+            return cartItems.Sum(cartItemViewModel => cartItemViewModel.Product.Price * cartItemViewModel.Quantity);
+        }
+
+        public int GetCartItemsCount(IEnumerable<CartItem> cartItems)
+        {
+            return cartItems.Sum(cartItemViewModel => cartItemViewModel.Quantity);
         }
     }
 }

@@ -22,6 +22,36 @@
 
 <script type="text/javascript">
     $(function () {
+        //user modifies quantity of a cart item
+        $(".quantityDropDown").change(function () {
+            // Get the id from the link
+            var cartItemId = $(this).attr("cartItemId");
+            var shippingPrice = $('.shippingPrice').text();
+
+            var quantity = $(this).val()
+
+            if (cartItemId != '') {
+                // Perform the ajax post
+                $.post("/Checkout/UpdateCartItemQuantity", { "cartItemId": cartItemId, "quantity": quantity, "shippingPrice": shippingPrice },
+                    function (data) {
+                        // Successful requests get here
+
+                        // Update the page elements
+                        $('.subTotal').text(data.SubTotal);
+                        $('#subTotalSpan').text(data.SubTotalLabel);
+                        $('#cart-status').text(data.CartLabel);
+                        $('.cartItemId' + cartItemId + ' .cart-item-price').text(data.CartItemPrice);
+                        $('.salesTax').text(data.SalesTax);
+                        $('.orderTotal').text(data.OrderTotal);
+                    }
+                ).fail(function (error) {
+                    //Alert error here
+                    console.error(error);
+                });;
+            }
+        });
+
+        //user selects a shipping option
         $(".shippingOptionRadioButton").change(function () {
             // Get the id from the link
             var shippingId = $(this).val()
@@ -29,7 +59,6 @@
             // Perform the ajax post
             $.post("/Checkout/UpdateShippingOption", { "shippingOptionId": shippingId },
                 function (data) {
-
                     // Successful requests get here
                     // Update the page elements
                     $('.subTotal').text(data.SubTotal);
@@ -97,7 +126,7 @@
                     <div class="field-group">
                         <h4>Shipping Address</h4>
                     </div>
-                    @*@Html.ValidationSummary(true, "", new { @class = "field-error" })*@
+                    @Html.ValidationMessage("addressError", new { @class = "field-error" })
                     <div class="multi-field-row">
                         <div class="col_1_of_2">
                             <div class="field-group">
@@ -125,9 +154,9 @@
 
                     <div class="field-group">
                         <div class="col-md-10">
-                            @Html.LabelFor(model => model.AptSuiteEtc, htmlAttributes: new { @class = "field-label" })
-                            @Html.EditorFor(model => model.AptSuiteEtc, new { htmlAttributes = new { @class = "field-value" } })
-                            @Html.ValidationMessageFor(model => model.AptSuiteEtc, "", new { @class = "field-error" })
+                            @Html.LabelFor(model => model.AptUnitSuiteEtc, htmlAttributes: new { @class = "field-label" })
+                            @Html.EditorFor(model => model.AptUnitSuiteEtc, new { htmlAttributes = new { @class = "field-value" } })
+                            @Html.ValidationMessageFor(model => model.AptUnitSuiteEtc, "", new { @class = "field-error" })
                         </div>
                     </div>
 
@@ -162,23 +191,40 @@
                     <span>Items</span>
                 </div>
                 <div id="cart-items-body" class="content-group-body">
-                    @foreach (var cartItem in Model.CartItemDTOs)
+                    @foreach (var cartItemViewModel in Model.CartItemDTOs)
                     {
-                        <div class="cart-item-row">
-                            <div class="product-image col_1_of_4">
-                                <img src=@Url.Content("~/Content/Images/19681864394_c332ae87df_t.jpg") alt="Paris" />
+                        <div class="cart-item-row  @(string.Format("cartItemId{0}", cartItemViewModel.CartItemID))">
+                            <div class="product-image cart-item-column">
+                                <img src=@Url.Content("~/Content/Images/19681864394_c332ae87df_t.jpg") alt="Images" />
                             </div>
-                            <div class="product-name col_1_of_2">
-                                @cartItem.ProductName
-                                <div class="product-quantity">
-                                    Qty: @cartItem.Quantity
+                            <div class="product-info-container">
+                                <div class="product-info">
+                                    <div class="product-name product-info-row">
+                                        @cartItemViewModel.ProductName
+                                        @if (cartItemViewModel.StockCount <= 5)
+                                        {
+                                            <div class="stock-count-label @cartItemViewModel.StockMessageCssClass product-info-row">
+                                                @cartItemViewModel.StockMessage
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    <div class="product-price">
+                                        @cartItemViewModel.Price.ToString("C")
+                                    </div>
+
+                                    <div class="product-quantity">
+                                        @Html.DropDownListFor(ciViewModel => cartItemViewModel.Quantity, cartItemViewModel.QuantityDropDown, new
+                                   {
+                                       @class = "quantityDropDown",
+                                       cartItemId = cartItemViewModel.CartItemID
+                                   })
+                                    </div>
                                 </div>
-                                <div class="@cartItem.StockMessageCssClass">
-                                    @cartItem.StockMessage
-                                </div>
+
                             </div>
-                            <div class="product-price col_1_of_4 text-right">
-                                @((cartItem.Price * cartItem.Quantity).ToString("C"))
+                            <div class="cart-item-price cart-item-column text-right">
+                                @((cartItemViewModel.Price * cartItemViewModel.Quantity).ToString("C"))
                             </div>
                         </div>
                         @*NOTE: Can use <hr> tag inside a div (placing <hr> tag cart-item-row div) along with negative margin left and right values (if necessary) instead*@
@@ -195,7 +241,7 @@
                 </div>
                 <div id="order-summary-body" class="content-group-body">
                     <div class="order-summary-row">
-                        <strong>Subtotal</strong>
+                        <strong>Subtotal</strong> <span id="subTotalSpan">(@(string.Format("{0} {1})", Model.CartItemsCount, Model.CartItemsCount == 1 ? "item" : "items"))</span>
                         <div class="subTotal float-right">@Model.SubTotal.ToString("C")</div>
                     </div>
 

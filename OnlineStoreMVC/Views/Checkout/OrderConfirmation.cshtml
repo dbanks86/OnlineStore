@@ -9,10 +9,11 @@
       type="text/css" />
 
 <div id="container">
+    <div id="page-title"><span>Order Confirmation</span> <span class="float-right">Order #4385038903043</span></div>
     <div id="leftColumn">
         <div id="shipping-info" class="content-group">
             <div id="shipping-info-header" class="content-group-header">
-                <span>Shipping</span>
+                <span>Shipping & Payment</span>
             </div>
             <div id="shipping-info-body" class="content-group-body">
                 <div class="shipping-info-row">
@@ -20,7 +21,7 @@
                         <div class="shipping-info-column-header">
                             <div>Shipping Address</div>
                         </div>
-                        @Html.Label(string.Format("{0} {1}", Model.Order.FirstName, Model.Order.LastName), new { @class = "shipping-address-line" })
+                        @Html.Label(string.Format("{0} {1}", Model.FirstName, Model.LastName), new { @class = "shipping-address-line" })
                         @Html.Label(Model.Candidate.DeliveryLine1, new { @class = "shipping-address-line" })
                         @Html.Label(Model.Candidate.LastLine, new { @class = "shipping-address-line" })
                     </div>
@@ -28,7 +29,17 @@
                         <div class="shipping-info-column-header">
                             <div>Payment Method</div>
                         </div>
-                        @Html.DisplayFor(model => model.Candidate.DeliveryLine1, new { @class = "shipping-address-line" })
+                        <div id="payment-div">
+                            <div id="payment-image">
+                                <div id="card-company-text">
+                                    VISA
+                                </div>
+                            </div>
+                            <div id="payment-method-number">
+                                **** 1234
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -39,14 +50,14 @@
                 <span>Items</span>
             </div>
             <div id="cart-items-body" class="content-group-body">
-                @foreach (var cartItem in Model.CartItems)
+                @foreach (var cartItem in Model.OrderDetails)
                 {
                     <div class="cart-item-row">
                         <div class="product-image">
-                            <img src="/Content/Images/5110DJ6RuKL._SS100_.jpg" alt="Paris" />
+                            <img src=@Url.Content("~/Content/Images/19681864394_c332ae87df_t.jpg") alt="Images" />
                         </div>
                         <div class="product-info">
-                            <div class="product-name product-info-row">Product Name</div>
+                            <div class="product-name product-info-row">@cartItem.Product.Name</div>
                             <div class="product-price product-info-row">
                                 @cartItem.Product.Price.ToString("C")
                             </div>
@@ -73,42 +84,42 @@
             <div id="order-summary-body" class="content-group-body">
                 <div class="order-summary-row">
                     <strong>Order Number</strong>
-                    @Html.Label(Model.Order.OrderID.ToString(), new {@class = "order-number float-right" })
+                    @Html.Label(Model.OrderID.ToString(), new {@class = "order-number float-right" })
                 </div>
 
                 <div class="order-summary-row">
                     <strong>Order Date</strong>
-                    <div class="order-date float-right">@Model.Order.OrderDate.ToString("dddd, MMMM d")</div>
+                    <div class="order-date float-right">@Model.OrderDate.ToString("dddd, MMMM d")</div>
                 </div>
                 <hr />
                 <div class="order-summary-row">
                     <strong>Delivery Date</strong>
-                    <div class="delivery-date float-right">@DateTime.Today.AddDays(Model.ShippingOption.ExpectedDeliveryDays).ToString("dddd, MMMM d")</div>
+                    <div class="delivery-date float-right">@DateTime.Today.AddDays(Model.ExpectedDeliveryDays).ToString("dddd, MMMM d")</div>
                 </div>
                 <hr />
                 <div class="order-summary-row">
                     <strong>Tracking #</strong>
-                    <div class="tracking-number float-right">284705796336876435566899654</div>
+                    <div class="tracking-number float-right">@Model.TrackingNumber</div>
                 </div>
                 <hr />
                 <div class="order-summary-row">
                     <strong>Subtotal</strong>
-                    <div class="subTotal float-right">@Model.Order.SubTotal.ToString("C")</div>
+                    <div class="subTotal float-right">@Model.SubTotal.ToString("C")</div>
                 </div>
                 
                 <div class="order-summary-row">
                     <strong class="shippingOptionName">Shipping</strong>
-                    <div class="shippingPrice float-right">@(Model.ShippingOption.Price.HasValue ? Model.ShippingOption.Price.Value.ToString("C") : "FREE")</div>
+                    <div class="shippingPrice float-right">@(Model.ShippingPrice.HasValue ? Model.ShippingPrice.Value.ToString("C") : "FREE")</div>
                 </div>
 
                 <div class="order-summary-row">
                     <strong>Tax</strong>
-                    <div class="salesTax float-right">@(Model.Order.SalesTax.HasValue ? Model.Order.SalesTax.Value.ToString("C") : "$0.00")</div>
+                    <div class="salesTax float-right">@(Model.SalesTax.ToString("C"))</div>
                 </div>
                 <hr />
                 <div class="order-summary-row">
                     <strong id="order-total-label">Order Total</strong>
-                    <div class="orderTotal float-right">@Model.Order.Total.ToString("C")</div>
+                    <div class="orderTotal float-right">@Model.Total.ToString("C")</div>
                 </div>
             </div>
         </div>

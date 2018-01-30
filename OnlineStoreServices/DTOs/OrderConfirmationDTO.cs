@@ -23,6 +23,11 @@ namespace OnlineStoreServices.DTOs
         public string LastName { get; set; }
 
         /// <summary>
+        /// ID of order
+        /// </summary>
+        public int OrderID { get; set; }
+
+        /// <summary>
         /// Date and time in which order was placed
         /// </summary>
         public DateTime OrderDate { get; set; }
@@ -30,12 +35,22 @@ namespace OnlineStoreServices.DTOs
         /// <summary>
         /// Cart items of user
         /// </summary>
-        public IEnumerable<CartItem> CartItems { get; set; }
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
 
         /// <summary>
         /// Date order is expected to arrived at shipping address provided by user
         /// </summary>
         public int ExpectedDeliveryDays { get; set; }
+
+        /// <summary>
+        /// Sum of each cart item price * cart item quantity
+        /// </summary>
+        public decimal SubTotal { get; set; }
+
+        /// <summary>
+        /// ID of selected shipping option
+        /// </summary>
+        public int ShippingOptionID { get; set; }
 
         /// <summary>
         /// Name of selected shipping option
@@ -48,8 +63,20 @@ namespace OnlineStoreServices.DTOs
         public decimal? ShippingPrice { get; set; }
 
         /// <summary>
-        /// ID of selected shipping option
+        /// Percentage of subtotal + shipping price
+        /// Currently using sales tax rate of Georgia
+        /// When considering customer across the US, a sales tax API (such as taxjar) to calculate sales tax
         /// </summary>
-        public int ShippingOptionID { get; set; }
+        public decimal SalesTax { get; set; }
+
+        /// <summary>
+        /// subtotal + shipping price + sales tax
+        /// </summary>
+        public decimal Total { get; set; }
+
+        /// <summary>
+        /// Tracking number of order
+        /// </summary>
+        public string TrackingNumber { get; set; }
     }
 }

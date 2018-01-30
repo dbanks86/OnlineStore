@@ -10,7 +10,9 @@ USING (VALUES
         ('Electronics'),
 		('Video Games'),
 		('Personal Care'),
-		('Movies')
+		('Movies'),
+		('House Care')
+
 ) 
 AS Source (Name) 
 ON Target.Name = Source.Name 
@@ -20,39 +22,24 @@ VALUES (Name);
 
 
 
-DBCC CHECKIDENT ('Products', RESEED, 1);
+DBCC CHECKIDENT ('Products', RESEED, 0);
 GO
 
 MERGE INTO Products AS Target 
 USING (VALUES
-		('Call of Duty: Black Ops III (PS4)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 1),
-		('Call of Duty: Black Ops III (Xbox One)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 6),
-		('Call of Duty: Black Ops III (PC)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 0), 
-        ('Fallout 3 (PS3)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 70),
-		('Fallout 3 (Xbox 360)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 9),
-		('Fallout 3 (PC)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 50),
-		('Fallout 4 (PS4)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 4),
-		('Fallout 4 (Xbox One)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 12),
-		('Fallout 4 (PC)', (select DepartmentID from Departments where Name = 'Video Games'), 59.99, 45),
-		('Super Smash TV (Sega Genesis)', (select DepartmentID from Departments where Name = 'Video Games'), 5.99, 66),
-		('Super Smash TV (SNES)', (select DepartmentID from Departments where Name = 'Video Games'), 5.99, 66),
-		('Marvel Super Heroes: War of Gems', (select DepartmentID from Departments where Name = 'Video Games'), 11.99, 33),
-		('X-Men', (select DepartmentID from Departments where Name = 'Video Games'), 5.99, 5),
-		('Dark Knight', (select DepartmentID from Departments where Name = 'Movies'), 9.99, 1),
-		('300', (select DepartmentID from Departments where Name = 'Movies'), 9.99, 4),
-		('Man of Steel', (select DepartmentID from Departments where Name = 'Movies'), 12.99, 11),
-		('X-Men', (select DepartmentID from Departments where Name = 'Movies'), 8.99, 12),
-		('Old Spice Body Wash Swagger 32 Oz', (select DepartmentID from Departments where Name = 'Personal Care'), 4.99, 22),
-		('Old Spice Body Wash Aqua Reef 32 Oz', (select DepartmentID from Departments where Name = 'Personal Care'), 4.99, 13),
-		('Old Spice Body Wash Timber 32 Oz', (select DepartmentID from Departments where Name = 'Personal Care'), 4.99, 2),
-		('Crest Complete Whitening Plus Scope Toothpaste - Minty Fresh 8 Oz', (select DepartmentID from Departments where Name = 'Personal Care'), 2.79, 23),
-		('Reach Mint Waxed Floss 80M', (select DepartmentID from Departments where Name = 'Personal Care'), 4.99, 22),
-		('Suave Lotion Advanced Therapy', (select DepartmentID from Departments where Name = 'Personal Care'), 2.49, 10),
-		('Vizio 55" 4K HD TV', (select DepartmentID from Departments where Name = 'Electronics'), 656.99, 3),
-		('Black and Decker Toaster', (select DepartmentID from Departments where Name = 'Electronics'), 12.99, 27),
-		('Sony 80" 4K HD TV', (select DepartmentID from Departments where Name = 'Electronics'), 1005.99, 1),
-		('Black and Decker Toaster Oven', (select DepartmentID from Departments where Name = 'Electronics'), 50.99, 80),
-		('Samsung 40" 4K HD TV', (select DepartmentID from Departments where Name = 'Electronics'), 599.99, 17)
+		('Body Wash, Original Scent, 32 Oz (Pack of 4)', (select DepartmentID from Departments where Name = 'Personal Care'), 19.99, 22),
+		('Body Wash, Fresh Springs Scent, 64 Oz (Pack of 2)', (select DepartmentID from Departments where Name = 'Personal Care'), 21.99, 13),
+		('Whitening Toothpaste, Fresh Mint, 7.5 Oz (Pack of 3)', (select DepartmentID from Departments where Name = 'Personal Care'), 9.99, 2),
+		('Whitening Toothpaste, Icy Mint, 10.5 Oz (Pack of 4)', (select DepartmentID from Departments where Name = 'Personal Care'), 12.99, 25),
+		('USB C Cable, Black (6 Feet, USB 3.0, Gold-Plated)', (select DepartmentID from Departments where Name = 'Electronics'), 7.49, 23),
+		('USB C Cable, Blue (6 Feet, USB 3.0, Gold-Plated)', (select DepartmentID from Departments where Name = 'Electronics'), 7.49, 4),
+		('70-Inch 4K Ultra HD Smart LED TV (2018 Model)', (select DepartmentID from Departments where Name = 'Electronics'), 1799.99, 1),
+		('60-Inch 4K Ultra HD Smart LED TV (2017 Model)', (select DepartmentID from Departments where Name = 'Electronics'), 1399.99, 5),
+		('Platinum Dishwasher Detergent Pods, Original Scent, 100 Count', (select DepartmentID from Departments where Name = 'House Care'), 15.99, 50),
+		('Elite Dishwasher Detergent, Fresh Breeze Scent, 125 Oz', (select DepartmentID from Departments where Name = 'House Care'), 10.99, 50),
+		('PC Desktop (Intel Quad-Core i7 3.6GHz Processor, 16GB DDR4, 2TB HDD', (select DepartmentID from Departments where Name = 'Electronics'), 999.99, 5),
+		('2-in-1 Laptop (15.6 inch, Intel Core i7 2.7GHz, 16GB DDR4, 256GB SSD', (select DepartmentID from Departments where Name = 'Electronics'), 879.99, 3)
+
 ) 
 AS Source (Name, DepartmentID, Price, StockCount) 
 ON Target.Name = Source.Name 
@@ -77,3 +64,5 @@ ON Target.Name = Source.Name
 WHEN NOT MATCHED BY TARGET THEN 
 INSERT (Name, Price, ExpectedDeliveryDays)  
 VALUES (Name, Price, ExpectedDeliveryDays);
+
+DBCC CHECKIDENT ('Orders', RESEED, 1138597656);
